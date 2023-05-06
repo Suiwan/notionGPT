@@ -2,6 +2,7 @@
 # @Author  : Zijian li
 # @Time    : 2023/5/5 14:43
 import pandas as pd
+from snownlp import SnowNLP
 from tqdm.auto import tqdm
 import time
 import openai
@@ -23,19 +24,11 @@ def processNotionData():
         title = titles[i]
         page_url = page_urls[i]
         page_id = page_ids[i]
-        # 需要对text进行分句？
-        if len(text) > 500:
-            batch_num = len(text) // 500
-            for j in range(batch_num):
-                insert_data.append({
-                    'text': text[j * 500:(j + 1) * 500],
-                    'title': title,
-                    'page_url': page_url,
-                    'page_id': page_id
-                })
-        else:
+        s = SnowNLP(text)
+        sentences = s.sentences
+        for sentence in sentences:
             insert_data.append({
-                'text': text,
+                'text': sentence,
                 'title': title,
                 'page_url': page_url,
                 'page_id': page_id
@@ -74,6 +67,8 @@ def init_pinecone():
 
 
 def get_embedding(text, model="text-embedding-ada-002", delay=1, max_retries=3):
+    # 防止请求过快，限制1min内只能发送60个请求
+    time.sleep(1)
     retries = 0
     while retries < max_retries:
         try:
