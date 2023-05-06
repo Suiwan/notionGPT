@@ -2,7 +2,7 @@
 NotionGPT, a practical tool built on top of ChatGPT large language model, make it your note-taking assistant!
 
 # 简介
-NotionGPT，一款一款ChatGPT大模型下游的实用工具，能够根据你的Notion笔记内容进行问题回答。
+NotionGPT，一款ChatGPT大模型下游的实用工具，能够根据你的Notion笔记内容进行问题回答。
 
 # 实现步骤
 1. 通过官方API获取Notion笔记数据 (https://developers.notion.com/reference/intro)
