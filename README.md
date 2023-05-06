@@ -12,5 +12,9 @@ NotionGPT，一款一款ChatGPT大模型下游的实用工具，能够根据你�
 5. 构造prompt
 6. 调用OPENAI的QA API 进行问题回答
 
+
+#stack
+FastApi+Pinecone+0penai
+
 # 使用
 后面再写
