@@ -13,7 +13,23 @@ NotionGPT，一款ChatGPT大模型下游的实用工具，能够根据你的Noti
 6. 调用OPENAI的QA API 进行问题回答
 
 # Tech Stack
-FastApi+Pinecone+openai
+Notion API:   get_database_content & page_content
 
-# 使用
-后面再写
+SnowNLP: chinese sentence segmentation
+
+Pinecone: vectorDB- personal knowledge DB- upsert & query
+
+OpenAI: sentence embedding & prompt QA
+
+FastAPI:  Frontend web UI
+
+
+# Usage
+Notion： data_base_id & auth_token
+
+Pinecone: pinecone api key & pinecone env_name (proxy needed)
+
+OpenAI: openai api key
+
+Fill in code and start using
+
