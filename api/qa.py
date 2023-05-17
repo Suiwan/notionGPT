@@ -25,8 +25,6 @@ def retrieve(query, index):
         x['metadata']['original_text'] for x in res['matches']
     ]
 
-    # todo: show knowledge on UI
-
     # build our prompt with the retrieved contexts included
     prompt_start = (
             "请你基于以下信息回答我的问题.如果你对以下信息有深刻了解，你也可以进行补充，但是主体内容需要基于以下的信息.\n\n" +
@@ -139,7 +137,7 @@ def answer_question(query):
     return answer
 
 
-# todo search in chain retrieve
+# search in chain retrieve
 # a veeeeeery simple implementation of search in chain. not as good as the one in the paper
 def search_in_chain(query):
     import json

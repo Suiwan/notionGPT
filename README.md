@@ -23,6 +23,8 @@ NotionGPT，一款ChatGPT大模型下游的实用工具，能够根据你的Noti
 
 5. FastAPI:  Frontend web UI
 
+6. Prompt Engineering: CoT(Chain of Thought), Search in chain, chain of keyword()
+
 
 # Usage
 1. Notion： data_base_id & auth_token
@@ -38,7 +40,15 @@ NotionGPT，一款ChatGPT大模型下游的实用工具，能够根据你的Noti
 6. Fill in code
 
 7. `python webUI.py`
-# Todo
-- [ ] update UI
-- [ ] add function of updating notes to dababase
 
+
+# Todo
+- [ ] Add function of updating notes to dababase
+- [ ] Better prompt engineering
+- [ ] Other QA LLM support
+- [ ] Local vector database
+
+
+# Reference
+- Chain of Thought: https://arxiv.org/abs/2201.11903
+- Search in Chain:  https://arxiv.org/abs/2304.14732
