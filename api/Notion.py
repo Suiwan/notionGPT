@@ -24,6 +24,8 @@ def getDataBaseContent(database_id: str):
     return result
 
 
+# todo : update database with new content
+
 def getPageText(result):
     from collections import defaultdict
     import re

@@ -8,8 +8,9 @@ from starlette.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from api.build_pinecone import init_pinecone
-from api.qa import retrieve, complete, chat_complete
+from api.qa import retrieve, complete, chat_complete,chain_of_thought,search_in_chain,chain_of_keyword
 import json
+from api.util import check_usage
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -22,14 +23,33 @@ class Message(BaseModel):
 
 
 index = init_pinecone()
-
+# index=0
 
 @app.post('/api/chat')
 async def chat(request: Request, message: Message):
+
     # Get the user's message from the request
     query = message.message
-    # get prompt from query and pinecone
-    prompt = retrieve(query, index)
+    print("query: ",query)
+    final_answer = ""
+    # get selected option from url
+    option = request.query_params.get('option')
+    print("selected option: ",option)
+    # options: Common_Prompt, Chain_of_Thought, Search_in_Chain
+    # # get prompt from query and pinecone
+    if option == 'Common_Prompt':
+        prompt = retrieve(query, index)
+        print("prompt: ",prompt)
+    elif option == 'Chain_of_Thought':
+        prompt = chain_of_thought(query, index)
+    elif option == "Search_in_Chain":
+        final_answer = search_in_chain(query)
+        print("final_answer: ",final_answer)
+        # 将final_answer中的\n替换成<br>
+        final_answer = final_answer.replace('\n', '<br>')
+        return JSONResponse({'response': final_answer})
+    else:
+        prompt = chain_of_keyword(query,index)
     # get response
     response = chat_complete(prompt)['content']
 
@@ -38,12 +58,16 @@ async def chat(request: Request, message: Message):
 
     # 去掉res_json两侧的引号
     res_json = res_json[1:-1]
+    # res_json = "这是回答"
+    # 去掉res_json中多余的\n
+    res_json = res_json.replace('\\n', '')
 
     return JSONResponse({'response': res_json})
 
 
 @app.get("/")
 async def home(request: Request):
+    # check_usage()
     return templates.TemplateResponse("index.html", {"request": request})
 
 

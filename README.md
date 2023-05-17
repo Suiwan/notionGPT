@@ -38,7 +38,6 @@ NotionGPT，一款ChatGPT大模型下游的实用工具，能够根据你的Noti
 6. Fill in code
 
 7. `python webUI.py`
-
 # Todo
 - [ ] update UI
 - [ ] add function of updating notes to dababase
