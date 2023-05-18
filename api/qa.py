@@ -105,7 +105,8 @@ def get_pinecone_information(keyword,query,index):
 
 def get_keywords_of_query(query):
     # query = "知识图谱和语义网之间的区别是什么"
-    prompt = f"<{query}>这句话的关键词有哪些？请以[keyword 1]、[keyword 2]、[keyword 3]的格式回答，例如：[keyword 1]: 知识图谱，[keyword 2]: 语义网\n注意：你回答的关键词最好是以名词为主，例如：知识图谱，语义网，而不是：构建，有关等等"
+    prompt = f"<{query}>这句话的关键词有哪些？请以[keyword 1]、[keyword 2]、[keyword 3]的格式回答，例如：[keyword 1]: 知识图谱，[keyword 2]: 语义网\n" \
+             f"注意：你回答的关键词必须是一些有实际意义的实体（Entity），例如：知识图谱，语义网，而不是：构建，有关等等"
     res = chat_complete(prompt)
     comp_json = json.dumps(res, ensure_ascii=False)
     content = re.findall(r'"content": "(.*?)"', comp_json)
@@ -118,7 +119,11 @@ def get_keywords_of_query(query):
 
 def chain_of_keyword(query,index):
     keywords = get_keywords_of_query(query)
-    prompt = f"Answer the Question by referring your query to the search engine based on what you already know and the [Query]-[Infos] pairs of chain of keyword that I provided for you\n (Notice: you should finish your answer in chinese)"
+    prompt = f"Answer the Question by referring your query to the search engine based on what you already know and the [Query]-[Infos] pairs of chain of keyword that I provided for you\n And your answer should include the keyword-infos pairs (such as [Keyword]:keyword [Infos]:<infos>) you used \n " \
+             f"For example:" \
+             f"[Keyword 1]: 知识图谱\n" \
+             f"[Infos]: 1. 知识图谱是重要技术.2. 知识图谱可以表示知识\n " \
+             f"(Notice: you should finish your answer in chinese)\n"
     CoK = ""
     for i in range(len(keywords)):
         q = f"What is {keywords[i]}?"
